@@ -20,7 +20,7 @@ public class AddressController {
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
-    private ClientService clientService
+    private ClientService clientService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
