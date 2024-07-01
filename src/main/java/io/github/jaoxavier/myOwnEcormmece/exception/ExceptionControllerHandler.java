@@ -1,5 +1,6 @@
 package io.github.jaoxavier.myOwnEcormmece.exception;
 
+import io.github.jaoxavier.myOwnEcormmece.exception.address.AddressDoesntExistsException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientDoesntExistsException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,12 @@ public class ExceptionControllerHandler {
     @ExceptionHandler(ClientDoesntExistsException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleClientDoesntExists(ClientDoesntExistsException ex){
+        return createResponse(HttpStatus.NOT_FOUND, ex);
+    }
+
+    @ExceptionHandler(AddressDoesntExistsException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleAddressDoesntExists(AddressDoesntExistsException ex){
         return createResponse(HttpStatus.NOT_FOUND, ex);
     }
 

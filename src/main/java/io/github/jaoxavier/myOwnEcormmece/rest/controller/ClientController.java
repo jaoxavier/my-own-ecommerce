@@ -20,9 +20,9 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @GetMapping
-    public String test(){
-        return "SUCCESS TEST";
+    @GetMapping("/{id}")
+    public Client getClientById(@PathVariable Integer id){
+        return clientService.getClient(id);
     }
 
     @PostMapping
