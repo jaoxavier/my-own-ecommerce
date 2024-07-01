@@ -1,8 +1,8 @@
 package io.github.jaoxavier.myOwnEcormmece.exception;
 
+import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientDoesntExistsException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -15,6 +15,12 @@ public class ExceptionControllerHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleEmailIsAlreadyCreated(EmailAlreadyCreatedException ex){
         return createResponse(HttpStatus.CONFLICT, ex);
+    }
+
+    @ExceptionHandler(ClientDoesntExistsException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleClientDoesntExists(ClientDoesntExistsException ex){
+        return createResponse(HttpStatus.NOT_FOUND, ex);
     }
 
     private ErrorResponse createResponse(HttpStatus status, RuntimeException ex){

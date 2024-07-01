@@ -1,6 +1,6 @@
-package io.github.jaoxavier.myOwnEcormmece.domain.client.info;
+package io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info;
 
-import io.github.jaoxavier.myOwnEcormmece.domain.client.enums.Gender;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +22,7 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer client_ID;
+    private Integer id;
 
     @NotNull(message = "First Name is required")
     private String first_name;

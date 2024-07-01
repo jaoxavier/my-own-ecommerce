@@ -1,6 +1,6 @@
 package io.github.jaoxavier.myOwnEcormmece.rest.dto;
 
-import io.github.jaoxavier.myOwnEcormmece.domain.client.enums.Gender;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Gender;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;

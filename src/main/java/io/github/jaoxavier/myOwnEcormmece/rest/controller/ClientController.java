@@ -1,10 +1,9 @@
 package io.github.jaoxavier.myOwnEcormmece.rest.controller;
 
-import io.github.jaoxavier.myOwnEcormmece.domain.client.info.Client;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
 import io.github.jaoxavier.myOwnEcormmece.repository.ClientRepository;
 import io.github.jaoxavier.myOwnEcormmece.service.client.ClientService;
-import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
