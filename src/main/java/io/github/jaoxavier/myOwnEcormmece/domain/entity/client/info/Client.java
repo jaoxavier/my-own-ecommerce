@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -24,11 +25,17 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotNull(message = "First Name is required")
-    private String first_name;
+    private Boolean isCompany;
 
-    @NotNull(message = "Last Name is required")
-    private String last_name;
+    @NotNull
+    @Pattern(
+            regexp = "^(\\d{3}-\\d{2}-\\d{4}|\\d{2}-\\d{7})$",
+            message = "SSN or EIN is REQUIRED"
+    )
+    private String number_ssn_ein;
+
+    @NotNull(message = "First Name is required")
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -51,6 +58,6 @@ public class Client {
     @Past(message = "Birthdate should be in the past")
     @NotNull(message = "Birthdate is required")
     private LocalDate birthdate;
-    private LocalDate register_at;
+    private LocalDateTime register_at;
 
 }

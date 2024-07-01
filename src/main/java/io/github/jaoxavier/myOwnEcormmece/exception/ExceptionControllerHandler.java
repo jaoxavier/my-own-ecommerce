@@ -3,6 +3,7 @@ package io.github.jaoxavier.myOwnEcormmece.exception;
 import io.github.jaoxavier.myOwnEcormmece.exception.address.AddressDoesntExistsException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientDoesntExistsException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
+import io.github.jaoxavier.myOwnEcormmece.exception.client.SSNorEINinvalidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,12 @@ public class ExceptionControllerHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleAddressDoesntExists(AddressDoesntExistsException ex){
         return createResponse(HttpStatus.NOT_FOUND, ex);
+    }
+
+    @ExceptionHandler(SSNorEINinvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleSSNorEINinvalidException(SSNorEINinvalidException ex){
+        return createResponse(HttpStatus.BAD_REQUEST, ex);
     }
 
     private ErrorResponse createResponse(HttpStatus status, RuntimeException ex){

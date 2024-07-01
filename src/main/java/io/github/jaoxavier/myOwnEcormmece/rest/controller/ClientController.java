@@ -1,7 +1,9 @@
 package io.github.jaoxavier.myOwnEcormmece.rest.controller;
 
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Gender;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
+import io.github.jaoxavier.myOwnEcormmece.exception.client.SSNorEINinvalidException;
 import io.github.jaoxavier.myOwnEcormmece.repository.ClientRepository;
 import io.github.jaoxavier.myOwnEcormmece.service.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.CreateClientDTO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -35,14 +38,15 @@ public class ClientController {
 
         Client client = Client
                 .builder()
-                .first_name(dto.getFirst_name())
-                .last_name(dto.getLast_name())
+                .name(dto.getFirst_name() + " " + dto.getLast_name())
+                .isCompany(dto.getIsCompany() != null ? dto.getIsCompany() : false)
+                .number_ssn_ein(clientService.verifySsnEin(dto))
                 .gender(dto.getGender())
                 .email(dto.getEmail())
                 .phone_number(dto.getPhone())
                 .cell_number(dto.getCell())
                 .birthdate(dto.getBirthdate())
-                .register_at(LocalDate.now())
+                .register_at(LocalDateTime.now())
                 .build();
         return clientRepository.save(client);
     }

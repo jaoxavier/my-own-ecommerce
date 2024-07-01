@@ -12,6 +12,8 @@ public class CreateClientDTO {
 
     private String first_name;
     private String last_name;
+    private Boolean isCompany;
+    private String number_ssn_ein;
     @Enumerated(EnumType.STRING)
     private Gender gender;
     private String email;

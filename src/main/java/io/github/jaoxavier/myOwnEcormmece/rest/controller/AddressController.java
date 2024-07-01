@@ -42,7 +42,7 @@ public class AddressController {
                 .builder()
                 .client(client)
                 .recipient(
-                        dto.getRecipient() == null ? client.getFirst_name() + " " + client.getLast_name() : dto.getRecipient()
+                        dto.getRecipient() == null ? client.getName() : dto.getRecipient()
                 )
                 .street(dto.getStreet())
                 .number(dto.getNumber())
