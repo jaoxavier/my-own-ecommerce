@@ -1,6 +1,6 @@
-package domain.entity.client.info;
+package io.github.jaoxavier.myOwnEcormmece.domain.client.info;
 
-import domain.entity.client.enums.Gender;
+import io.github.jaoxavier.myOwnEcormmece.domain.client.enums.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -51,8 +51,6 @@ public class Client {
     @Past(message = "Birthdate should be in the past")
     @NotNull(message = "Birthdate is required")
     private LocalDate birthdate;
-
-    @Past
     private LocalDate register_at;
 
 }
