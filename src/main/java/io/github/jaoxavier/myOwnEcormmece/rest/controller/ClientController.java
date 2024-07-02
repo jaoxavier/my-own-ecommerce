@@ -1,6 +1,7 @@
 package io.github.jaoxavier.myOwnEcormmece.rest.controller;
 
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Gender;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Situation;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.SSNorEINinvalidException;
@@ -11,15 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.CreateClientDTO;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/clients")
 public class ClientController {
 
-    @Autowired
-    private ClientRepository clientRepository;
     @Autowired
     private ClientService clientService;
 
@@ -31,7 +29,6 @@ public class ClientController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Client createClient(@RequestBody CreateClientDTO dto){
-
         if(clientService.isEmailAlreadyCreated(dto.getEmail())){
             throw new EmailAlreadyCreatedException("Email is already registered");
         }
@@ -40,6 +37,7 @@ public class ClientController {
                 .builder()
                 .name(dto.getFirst_name() + " " + dto.getLast_name())
                 .isCompany(dto.getIsCompany() != null ? dto.getIsCompany() : false)
+                .situation(Situation.ACTIVE)
                 .number_ssn_ein(clientService.verifySsnEin(dto))
                 .gender(dto.getGender())
                 .email(dto.getEmail())
@@ -48,6 +46,7 @@ public class ClientController {
                 .birthdate(dto.getBirthdate())
                 .register_at(LocalDateTime.now())
                 .build();
-        return clientRepository.save(client);
+
+        return clientService.saveClient(client);
     }
 }

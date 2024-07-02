@@ -53,6 +53,6 @@ public class AddressController {
                 .country(dto.getCountry())
                 .build();
 
-        return addressRepository.save(address);
+        return addressService.saveAddress(address);
     }
 }

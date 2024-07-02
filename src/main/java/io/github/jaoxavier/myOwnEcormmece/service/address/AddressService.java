@@ -34,4 +34,8 @@ public class AddressService {
         Client client = clientService.getClient(clientId);
         return addressRepository.findByClient(client);
     }
+
+    public Address saveAddress(Address address) {
+        return addressRepository.save(address);
+    }
 }
