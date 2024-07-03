@@ -30,9 +30,9 @@ public class AddressService {
         return opt_address.get();
     }
 
-    public List<Address> getAddressByClient(Integer clientId) {
+    public List<Address> getAddressByClientId(Integer clientId) {
         Client client = clientService.getClient(clientId);
-        return addressRepository.findByClient(client);
+        return addressRepository.findByClientId(client.getId());
     }
 
     public Address saveAddress(Address address) {

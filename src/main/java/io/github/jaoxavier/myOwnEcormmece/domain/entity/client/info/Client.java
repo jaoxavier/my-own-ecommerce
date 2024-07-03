@@ -2,6 +2,7 @@ package io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info;
 
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Gender;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Situation;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Order;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -82,4 +84,5 @@ public class Client {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "CLI_REGISTER_AT")
     private LocalDateTime register_at;
+
 }

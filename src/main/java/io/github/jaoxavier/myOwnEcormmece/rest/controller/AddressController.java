@@ -30,7 +30,7 @@ public class AddressController {
 
     @GetMapping("/client/{client_id}")
     public List<Address> getAddressByClient(@PathVariable Integer client_id){
-        return addressService.getAddressByClient(client_id);
+        return addressService.getAddressByClientId(client_id);
     }
 
     @PostMapping
@@ -40,7 +40,7 @@ public class AddressController {
 
         Address address = Address
                 .builder()
-                .client(client)
+                .client_id(client.getId())
                 .recipient(
                         dto.getRecipient() == null ? client.getName() : dto.getRecipient()
                 )

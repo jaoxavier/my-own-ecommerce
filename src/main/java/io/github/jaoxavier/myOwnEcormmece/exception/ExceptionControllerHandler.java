@@ -4,6 +4,7 @@ import io.github.jaoxavier.myOwnEcormmece.exception.address.AddressDoesntExistsE
 import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientDoesntExistsException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.SSNorEINinvalidException;
+import io.github.jaoxavier.myOwnEcormmece.exception.order.OrderCantBeSavedExcepion;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,12 @@ public class ExceptionControllerHandler {
     @ExceptionHandler(SSNorEINinvalidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleSSNorEINinvalidException(SSNorEINinvalidException ex){
+        return createResponse(HttpStatus.BAD_REQUEST, ex);
+    }
+
+    @ExceptionHandler(OrderCantBeSavedExcepion.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleOrderCantBeSavedExcepion(OrderCantBeSavedExcepion ex){
         return createResponse(HttpStatus.BAD_REQUEST, ex);
     }
 
