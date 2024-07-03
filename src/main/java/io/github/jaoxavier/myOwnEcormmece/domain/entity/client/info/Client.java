@@ -24,11 +24,11 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CLI_CD")
+    @Column(name = "CLI_ID")
     private Integer id;
 
     @NotNull
-    @Column(name = "IS_CPNY")
+    @Column(name = "COMPANY")
     private Boolean isCompany;
 
     @NotNull
@@ -37,7 +37,7 @@ public class Client {
     private Situation situation;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "IN_DTH")
+    @Column(name = "INACTIVE_DTH")
     private LocalDateTime inactive_date;
 
     @NotNull
@@ -49,20 +49,20 @@ public class Client {
     private String number_ssn_ein;
 
     @NotNull(message = "First Name is required")
-    @Column(name = "CLI_NM")
+    @Column(name = "CLI_NAME")
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "CLI_GEN")
+    @Column(name = "CLI_GENDER")
     private Gender gender;
 
     @Email(message = "E-mail is invalid")
     @NotNull(message = "E-mail is required")
-    @Column(name = "CLI_EML")
+    @Column(name = "CLI_EMAIL")
     private String email;
 
     @Pattern(regexp = "^\\(\\d{3}\\) \\d{3}-\\d{4}$")
-    @Column(name = "CLI_PHN")
+    @Column(name = "CLI_PHONE")
     private String phone_number;
 
     @Pattern(
@@ -70,16 +70,16 @@ public class Client {
             message = "Cell Phone Number should be in the format (XXX) XXX-XXXX"
     )
     @NotNull(message = "Cell Number is required")
-    @Column(name = "CLI_CEL")
+    @Column(name = "CLI_CELL")
     private String cell_number;
 
     @Temporal(TemporalType.DATE)
     @Past(message = "Birthdate should be in the past")
     @NotNull(message = "Birthdate is required")
-    @Column(name = "CLI_BTH_DT")
+    @Column(name = "CLI_BIRTH_DT")
     private LocalDate birthdate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CLI_RGT_AT")
+    @Column(name = "CLI_REGISTER_AT")
     private LocalDateTime register_at;
 }
