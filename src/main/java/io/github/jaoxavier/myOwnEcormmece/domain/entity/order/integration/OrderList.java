@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -19,8 +21,12 @@ public class OrderList {
     private Integer id;
 
     @NotNull
+    @Column(name = "CLI_ID")
     private Integer client_id;
     @NotNull
+    @Column(name = "ORD_ID")
     private Integer order_id;
-
+    @NotNull
+    @Column(name = "ORD_DTH")
+    private LocalDateTime order_date;
 }

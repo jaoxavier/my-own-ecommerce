@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateOrderDTO {
     private Integer client_id;
+    private Double total_value;
 }

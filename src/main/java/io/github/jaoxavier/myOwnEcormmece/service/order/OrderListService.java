@@ -17,6 +17,7 @@ public class OrderListService {
                 .builder()
                 .order_id(order.getId())
                 .client_id(order.getClient_id())
+                .order_date(order.getOrder_date())
                 .build();
         return orderListRepository.save(orderList);
     }
