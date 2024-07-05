@@ -2,6 +2,7 @@ package io.github.jaoxavier.myOwnEcormmece.service.client;
 
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Situation;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
+import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientCantBeSaved;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientDoesntExistsException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.SSNorEINinvalidException;
@@ -25,7 +26,13 @@ public class ClientService {
     private static final String[] VALID_EIN_PREFIXES = {"01", "02", "03", "04", "05", "06", "10", "11", "12", "13", "14", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "30", "31", "32", "33", "34", "35", "36", "37", "38", "40", "41", "42", "43", "44", "45", "46", "47", "48", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "71", "72", "73", "74", "75", "76", "77", "80", "81", "82", "83", "84", "85", "86", "87", "88", "90", "91", "92", "94", "95", "96", "97", "98", "99"};
 
     public Client saveClient(Client client){
-        return clientRepository.save(client);
+        Client saved_client = clientRepository.save(client);
+
+        if (saved_client.getId() == null){
+            throw new ClientCantBeSaved("Client can't be saved");
+        }
+
+        return saved_client;
     }
 
     public Boolean isEmailAlreadyCreated(String email){
@@ -40,6 +47,12 @@ public class ClientService {
         }
 
         return opt_client.get();
+    }
+
+    public void deleteClient(Client client) {
+        client.setSituation(Situation.INACTIVE);
+        client.setInactive_date(LocalDateTime.now());
+        this.saveClient(client);
     }
 
     public String verifySsnEin(CreateClientDTO dto) {
@@ -76,4 +89,5 @@ public class ClientService {
         }
         return false;
     }
+
 }

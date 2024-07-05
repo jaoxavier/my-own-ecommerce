@@ -38,4 +38,8 @@ public class AddressService {
     public Address saveAddress(Address address) {
         return addressRepository.save(address);
     }
+
+    public void deleteAddress(Address address) {
+        addressRepository.delete(address);
+    }
 }

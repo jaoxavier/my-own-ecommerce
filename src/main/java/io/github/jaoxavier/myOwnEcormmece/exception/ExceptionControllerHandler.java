@@ -1,9 +1,11 @@
 package io.github.jaoxavier.myOwnEcormmece.exception;
 
 import io.github.jaoxavier.myOwnEcormmece.exception.address.AddressDoesntExistsException;
+import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientCantBeSaved;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientDoesntExistsException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.SSNorEINinvalidException;
+import io.github.jaoxavier.myOwnEcormmece.exception.order.OrderCantBeFindException;
 import io.github.jaoxavier.myOwnEcormmece.exception.order.OrderCantBeSavedExcepion;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,18 @@ public class ExceptionControllerHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleOrderCantBeSavedExcepion(OrderCantBeSavedExcepion ex){
         return createResponse(HttpStatus.BAD_REQUEST, ex);
+    }
+
+    @ExceptionHandler(ClientCantBeSaved.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleClientCantBeSaved(ClientCantBeSaved ex){
+        return createResponse(HttpStatus.BAD_REQUEST, ex);
+    }
+
+    @ExceptionHandler(OrderCantBeFindException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleOrderCantBeFindException(OrderCantBeFindException ex){
+        return createResponse(HttpStatus.NOT_FOUND, ex);
     }
 
     private ErrorResponse createResponse(HttpStatus status, RuntimeException ex){

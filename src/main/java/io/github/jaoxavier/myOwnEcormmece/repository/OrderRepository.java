@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query(value = "SELECT DISTINCT O.* FROM ORDER_LIST OL JOIN ORDERS O ON OL.CLI_ID = O.CLI_ID" +
             " WHERE O.CLI_ID = :client_id ORDER BY ORD_DTH DESC", nativeQuery = true)
-    List<Order> findByClient(@PathParam("client_id") Integer client_id);
+    Optional<List<Order>> findByClient(@PathParam("client_id") Integer client_id);
 }

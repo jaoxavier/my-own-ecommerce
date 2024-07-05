@@ -1,11 +1,9 @@
 package io.github.jaoxavier.myOwnEcormmece.rest.controller;
 
-import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Gender;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Situation;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
-import io.github.jaoxavier.myOwnEcormmece.exception.client.SSNorEINinvalidException;
-import io.github.jaoxavier.myOwnEcormmece.repository.ClientRepository;
+import io.github.jaoxavier.myOwnEcormmece.rest.dto.EditedClientDTO;
 import io.github.jaoxavier.myOwnEcormmece.service.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +22,25 @@ public class ClientController {
     @GetMapping("/{id}")
     public Client getClientById(@PathVariable Integer id){
         return clientService.getClient(id);
+    }
+
+    @PatchMapping("/edit")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Client editClient(@RequestBody EditedClientDTO dto){
+        Client client = clientService.getClient(dto.getClient_id());
+        client.setName(dto.getName() == null ? client.getName() : dto.getName());
+        client.setGender(dto.getGender() == null ? client.getGender() : dto.getGender());
+        client.setEmail(dto.getEmail() == null ? client.getEmail() : dto.getEmail());
+        client.setPhone_number(dto.getPhone_number() == null ? client.getPhone_number() : dto.getPhone_number());
+        client.setCell_number(dto.getCell_number() == null ? client.getCell_number() : dto.getCell_number());
+        return clientService.saveClient(client);
+
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteUser(@PathVariable Integer id){
+        Client client = clientService.getClient(id);
+        clientService.deleteClient(client);
     }
 
     @PostMapping

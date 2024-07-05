@@ -4,6 +4,7 @@ import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Address;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.repository.AddressRepository;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.CreateAddressDTO;
+import io.github.jaoxavier.myOwnEcormmece.rest.dto.EditAddressDTO;
 import io.github.jaoxavier.myOwnEcormmece.service.address.AddressService;
 import io.github.jaoxavier.myOwnEcormmece.service.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,28 @@ public class AddressController {
     @GetMapping("/client/{client_id}")
     public List<Address> getAddressByClient(@PathVariable Integer client_id){
         return addressService.getAddressByClientId(client_id);
+    }
+
+    @PatchMapping("/edit")
+    public Address editAddress(@RequestBody EditAddressDTO dto){
+        Address address = addressService.getAddressById(dto.getId());
+
+        address.setRecipient((dto.getRecipient() == null ? address.getRecipient() : dto.getRecipient()));
+        address.setStreet((dto.getStreet() == null ? address.getStreet() : dto.getStreet()));
+        address.setNumber((dto.getNumber() == null ? address.getNumber() : dto.getNumber()));
+        address.setComplement((dto.getComplement() == null ? address.getComplement() : dto.getComplement()));
+        address.setCity((dto.getCity() == null ? address.getCity() : dto.getCity()));
+        address.setState((dto.getState() == null ? address.getState() : dto.getState()));
+        address.setZipcode((dto.getZipcode() == null ? address.getZipcode() : dto.getZipcode()));
+        address.setCountry((dto.getCountry() == null ? address.getCountry() : dto.getCountry()));
+
+        return addressService.saveAddress(address);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteAddress(@PathVariable Integer id){
+        Address address = addressService.getAddressById(id);
+        addressService.deleteAddress(address);
     }
 
     @PostMapping
