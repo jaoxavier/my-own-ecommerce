@@ -63,7 +63,7 @@ public class AddressController {
 
         Address address = Address
                 .builder()
-                .client_id(client.getId())
+                .client(client)
                 .recipient(
                         dto.getRecipient() == null ? client.getName() : dto.getRecipient()
                 )

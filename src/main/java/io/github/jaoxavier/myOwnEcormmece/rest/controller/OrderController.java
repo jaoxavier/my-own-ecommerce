@@ -55,7 +55,7 @@ public class OrderController {
 
         Order order = Order
                 .builder()
-                .client_id(client.getId())
+                .client(client)
                 .order_date(LocalDateTime.now())
                 .total_value(dto.getTotal_value())
                 .status(Status.PENDING_PAYMENT)

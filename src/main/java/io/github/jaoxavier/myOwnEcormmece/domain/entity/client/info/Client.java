@@ -85,4 +85,7 @@ public class Client {
     @Column(name = "CLI_REGISTER_AT")
     private LocalDateTime register_at;
 
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders;
+
 }

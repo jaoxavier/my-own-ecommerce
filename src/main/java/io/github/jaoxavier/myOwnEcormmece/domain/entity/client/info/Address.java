@@ -21,8 +21,9 @@ public class Address {
     @Column(name = "ADS_ID")
     private Integer id;
 
-    @Column(name = "CLI_ID")
-    private Integer client_id;
+    @ManyToOne
+    @JoinColumn(name = "CLI_ID")
+    private Client client;
 
     private String recipient;
 
