@@ -3,12 +3,12 @@ package io.github.jaoxavier.myOwnEcormmece.rest.controller;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.enums.Status;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Order;
-import io.github.jaoxavier.myOwnEcormmece.repository.OrderRepository;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.OrderItems;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.CreateOrderDTO;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.EditOrderDTO;
 import io.github.jaoxavier.myOwnEcormmece.service.client.ClientService;
 import io.github.jaoxavier.myOwnEcormmece.service.order.OrderService;
-import jakarta.transaction.Transactional;
+import io.github.jaoxavier.myOwnEcormmece.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +24,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/client/{client_id}")
     public List<Order> getOrderByClient(@PathVariable Integer client_id){
@@ -53,14 +55,18 @@ public class OrderController {
     public Order createOrder(@RequestBody CreateOrderDTO dto){
         Client client = clientService.getClient(dto.getClient_id());
 
+        List<OrderItems> products = productService.getProducts(dto.getProducts());
+        double total_price = productService.getTotalValue(products);
+
         Order order = Order
                 .builder()
                 .client(client)
                 .order_date(LocalDateTime.now())
-                .total_value(dto.getTotal_value())
+                .products(products)
+                .total_value(total_price)
                 .status(Status.PENDING_PAYMENT)
                 .build();
 
-        return orderService.saveOrder(order);
+        return orderService.saveOrderAndPopulateItems(order);
     }
 }

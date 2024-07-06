@@ -2,6 +2,7 @@ package io.github.jaoxavier.myOwnEcormmece.service.order;
 
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Order;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.OrderItems;
 import io.github.jaoxavier.myOwnEcormmece.exception.order.OrderCantBeFindException;
 import io.github.jaoxavier.myOwnEcormmece.exception.order.OrderCantBeSavedExcepion;
 import io.github.jaoxavier.myOwnEcormmece.repository.OrderRepository;
@@ -56,5 +57,15 @@ public class OrderService {
         }
 
         return order.get();
+    }
+
+    public Order saveOrderAndPopulateItems(Order order) {
+        order = saveOrder(order);
+
+        for (OrderItems product : order.getProducts()) {
+            product.setOrder(order);
+        }
+
+        return saveOrder(order);
     }
 }

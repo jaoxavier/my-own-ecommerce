@@ -1,12 +1,12 @@
 package io.github.jaoxavier.myOwnEcormmece.exception;
 
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.Product;
 import io.github.jaoxavier.myOwnEcormmece.exception.address.AddressDoesntExistsException;
-import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientCantBeSaved;
-import io.github.jaoxavier.myOwnEcormmece.exception.client.ClientDoesntExistsException;
-import io.github.jaoxavier.myOwnEcormmece.exception.client.EmailAlreadyCreatedException;
-import io.github.jaoxavier.myOwnEcormmece.exception.client.SSNorEINinvalidException;
+import io.github.jaoxavier.myOwnEcormmece.exception.client.*;
 import io.github.jaoxavier.myOwnEcormmece.exception.order.OrderCantBeFindException;
 import io.github.jaoxavier.myOwnEcormmece.exception.order.OrderCantBeSavedExcepion;
+import io.github.jaoxavier.myOwnEcormmece.exception.product.ProductCantBeFindException;
+import io.github.jaoxavier.myOwnEcormmece.exception.product.ProductHasInsufficientStock;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +56,24 @@ public class ExceptionControllerHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleOrderCantBeFindException(OrderCantBeFindException ex){
         return createResponse(HttpStatus.NOT_FOUND, ex);
+    }
+
+    @ExceptionHandler(ClientIsNotCompany.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleClientIsNotCompany(ClientIsNotCompany ex){
+        return createResponse(HttpStatus.UNAUTHORIZED, ex);
+    }
+
+    @ExceptionHandler(ProductCantBeFindException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleProductCantBeFindException(ProductCantBeFindException ex){
+        return createResponse(HttpStatus.NOT_FOUND, ex);
+    }
+
+    @ExceptionHandler(ProductHasInsufficientStock.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleProductHasInsufficientStock(ProductHasInsufficientStock ex){
+        return createResponse(HttpStatus.BAD_REQUEST, ex);
     }
 
     private ErrorResponse createResponse(HttpStatus status, RuntimeException ex){

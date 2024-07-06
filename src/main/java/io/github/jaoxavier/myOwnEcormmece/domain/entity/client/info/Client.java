@@ -3,6 +3,7 @@ package io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Gender;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.enums.Situation;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Order;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
