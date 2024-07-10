@@ -3,7 +3,7 @@ package io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.enums.Status;
-import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.OrderItems;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.ProductItems;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ public class Order {
     private Client client;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItems> products;
+    private List<ProductItems> products;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)

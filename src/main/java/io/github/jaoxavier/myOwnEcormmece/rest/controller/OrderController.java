@@ -3,7 +3,7 @@ package io.github.jaoxavier.myOwnEcormmece.rest.controller;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.enums.Status;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Order;
-import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.OrderItems;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.ProductItems;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.CreateOrderDTO;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.EditOrderDTO;
 import io.github.jaoxavier.myOwnEcormmece.service.client.ClientService;
@@ -55,7 +55,7 @@ public class OrderController {
     public Order createOrder(@RequestBody CreateOrderDTO dto){
         Client client = clientService.getClient(dto.getClient_id());
 
-        List<OrderItems> products = productService.getProducts(dto.getProducts());
+        List<ProductItems> products = productService.getProducts(dto.getProducts());
         double total_price = productService.getTotalValue(products);
 
         Order order = Order
