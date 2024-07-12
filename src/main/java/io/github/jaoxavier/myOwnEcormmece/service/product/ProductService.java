@@ -5,7 +5,6 @@ import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.Product;
 import io.github.jaoxavier.myOwnEcormmece.exception.product.ProductCantBeFindException;
 import io.github.jaoxavier.myOwnEcormmece.exception.product.ProductHasInsufficientStock;
 import io.github.jaoxavier.myOwnEcormmece.repository.ProductRepository;
-import io.github.jaoxavier.myOwnEcormmece.rest.dto.RawProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,31 +35,24 @@ public class ProductService {
         return product.get();
     }
 
-    public List<ProductItems> getProducts(List<RawProductDTO> products) {
+    public List<ProductItems> getProducts(List<ProductItems> products) {
         List<ProductItems> product_list = new ArrayList<>();
 
-        for (RawProductDTO product : products) {
-            Product verified_product = getProductById(product.getProduct_id());
-
-            if (!verifyIfProductHasStock(product)){
-                throw new ProductHasInsufficientStock("The Stock of " + verified_product.getName() + " is insufficient.");
+        for (ProductItems product_item : products){
+            if (verifyIfProductHasNoStock(product_item)){
+                throw new ProductHasInsufficientStock("The product " + product_item.getProduct().getName() + " has insufficient stock!");
             }
 
-            verified_product = updateProductStock(verified_product, product.getQuantity());
-            product_list.add(productItemService.createProductItem(verified_product, product));
+            Product product = updateProductStock(product_item);
+            product_list.add(productItemService.createProductItem(product, product_item));
         }
 
         return product_list;
     }
 
-    public boolean verifyIfProductHasStock(RawProductDTO product) {
-        Product verified_product = getProductById(product.getProduct_id());
-        return product.getQuantity() <= verified_product.getStock();
-    }
-
-    public boolean verifyIfProductHasStock(ProductItems product) {
+    public boolean verifyIfProductHasNoStock(ProductItems product) {
         Product verified_product = product.getProduct();
-        return product.getQuantity() <= verified_product.getStock();
+        return product.getQuantity() > verified_product.getStock();
     }
 
     public Double getTotalValue(List<ProductItems> products) {
@@ -74,8 +66,9 @@ public class ProductService {
         return total_price;
     }
 
-    private Product updateProductStock(Product verified_product, Integer quantity){
-        verified_product.setStock(verified_product.getStock() - quantity);
+    private Product updateProductStock(ProductItems item){
+        Product verified_product = item.getProduct();
+        verified_product.setStock(verified_product.getStock() - item.getQuantity());
         return saveProduct(verified_product);
     }
 }

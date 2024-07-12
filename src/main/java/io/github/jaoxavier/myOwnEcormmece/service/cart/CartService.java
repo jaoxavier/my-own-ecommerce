@@ -2,19 +2,20 @@ package io.github.jaoxavier.myOwnEcormmece.service.cart;
 
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Cart;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Order;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.Product;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.ProductItems;
 import io.github.jaoxavier.myOwnEcormmece.exception.product.ProductHasInsufficientStock;
 import io.github.jaoxavier.myOwnEcormmece.repository.CartRepository;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.CartItemDTO;
 import io.github.jaoxavier.myOwnEcormmece.service.client.ClientService;
+import io.github.jaoxavier.myOwnEcormmece.service.product.ProductItemService;
 import io.github.jaoxavier.myOwnEcormmece.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartService {
@@ -25,6 +26,8 @@ public class CartService {
     private ClientService clientService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductItemService productItemService;
 
     public Cart saveCart(Cart cart){
         return cartRepository.save(cart);
@@ -51,7 +54,7 @@ public class CartService {
     public Cart addItemOnCart(Cart cart, CartItemDTO dto) {
         ProductItems item = getProductItems(cart, dto);
 
-        if (!productService.verifyIfProductHasStock(item)){
+        if (productService.verifyIfProductHasNoStock(item)){
             throw new ProductHasInsufficientStock("The Stock of " + item.getProduct().getName() + " is insufficient.");
         }
 
@@ -95,8 +98,8 @@ public class CartService {
         return total_price;
     }
 
-    public Cart getCartByClient(Integer clientId) {
-        Client client = clientService.getClient(clientId);
-        return client.getCart();
+    public void cleanCart(Integer client_id) {
+        Integer cart_id = clientService.getClient(client_id).getCart().getId();
+        productItemService.deleteProductsOnCart(cart_id);
     }
 }

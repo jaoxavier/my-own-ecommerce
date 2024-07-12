@@ -12,5 +12,4 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateOrderDTO {
     private Integer client_id;
-    private List<RawProductDTO> products;
 }

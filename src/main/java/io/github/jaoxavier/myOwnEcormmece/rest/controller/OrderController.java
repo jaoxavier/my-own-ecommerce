@@ -2,10 +2,12 @@ package io.github.jaoxavier.myOwnEcormmece.rest.controller;
 
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.client.info.Client;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.enums.Status;
+import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Cart;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.order.info.Order;
 import io.github.jaoxavier.myOwnEcormmece.domain.entity.product.info.ProductItems;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.CreateOrderDTO;
 import io.github.jaoxavier.myOwnEcormmece.rest.dto.EditOrderDTO;
+import io.github.jaoxavier.myOwnEcormmece.service.cart.CartService;
 import io.github.jaoxavier.myOwnEcormmece.service.client.ClientService;
 import io.github.jaoxavier.myOwnEcormmece.service.order.OrderService;
 import io.github.jaoxavier.myOwnEcormmece.service.product.ProductService;
@@ -26,6 +28,8 @@ public class OrderController {
     private ClientService clientService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CartService cartService;
 
     @GetMapping("/client/{client_id}")
     public List<Order> getOrderByClient(@PathVariable Integer client_id){
@@ -54,8 +58,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(@RequestBody CreateOrderDTO dto){
         Client client = clientService.getClient(dto.getClient_id());
+        Cart cart = client.getCart();
 
-        List<ProductItems> products = productService.getProducts(dto.getProducts());
+        List<ProductItems> products = productService.getProducts(cart.getProducts());
         double total_price = productService.getTotalValue(products);
 
         Order order = Order
@@ -66,6 +71,8 @@ public class OrderController {
                 .total_value(total_price)
                 .status(Status.PENDING_PAYMENT)
                 .build();
+
+        cartService.cleanCart(client.getId());
 
         return orderService.saveOrderAndPopulateItems(order);
     }
